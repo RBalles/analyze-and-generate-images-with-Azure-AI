@@ -1,10 +1,18 @@
-// App.js
-import React, { useState } from 'react';
+// Importa useState y useEffect
+import React, { useState, useEffect } from 'react';
 import analyzeImage from './azure-image-analysis';
 
 function App() {
   const [imageUrl, setImageUrl] = useState('');
   const [results, setResults] = useState(null);
+  const [inputImage, setInputImage] = useState(null);
+
+  // Utiliza useEffect para cargar la imagen cuando la URL cambie
+  useEffect(() => {
+    if (imageUrl) {
+      setInputImage(imageUrl);
+    }
+  }, [imageUrl]);
 
   const handleImageAnalysis = async () => {
     if (!imageUrl) return;
@@ -30,6 +38,13 @@ function App() {
       />
 
       <button onClick={handleImageAnalysis}>Analizar Imagen</button>
+
+      {inputImage && (
+        <div>
+          <h2>Imágen:</h2>
+          <img src={inputImage} alt="Analize" />
+        </div>
+      )}
 
       {results && (
         <div>
